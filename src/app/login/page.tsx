@@ -5,6 +5,22 @@ import Link from "next/link";
 import { routes } from "@/routes";
 
 export default function LoginPage() {
+  // async function login(formData: FormData) {
+  //   "use server";
+  //
+  //   const rawFormData = {
+  //     email: formData.get("email"),
+  //     password: formData.get("password"),
+  //   };
+  //
+  // const res = await fetch(`${process.env.API_URL}/auth/login`, {
+  //   method: "POST",
+  //   body: rawFormData,
+  // });
+  //
+  // console.log(res);
+  // }
+
   return (
     <div className="grid sm:grid-cols-1 md:grid-cols-2 min-h-full">
       <div className="flex flex-col justify-center items-center">
@@ -20,7 +36,7 @@ export default function LoginPage() {
             <Label htmlFor="password">Password</Label>
             <Input id="password" name="password" type="password" />
           </div>
-          <Button className="block mb-12" variant="outline">
+          <Button type="submit" className="block mb-12" variant="outline">
             Login
           </Button>
           <Link href={routes.register} className="underline">

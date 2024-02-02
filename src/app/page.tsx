@@ -1,10 +1,12 @@
-import {routes} from "@/routes";
-import Link from "next/link";
+import { NavMenu } from "@/components/navMenu/NavMenu";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Link href={routes.login}>Login</Link>
-    </main>
+    <>
+      <NavMenu />
+      <main className="flex flex-col justify-between p-24">
+        <h2 className="text-4xl">All entries</h2>
+      </main>
+    </>
   );
 }

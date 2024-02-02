@@ -1,14 +1,15 @@
-import {ReactNode} from "react";
-import type {Metadata} from "next";
-import {Inter} from "next/font/google";
+import { ReactNode } from "react";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import {cn} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Linkshare",
-  description: "Linkshare is a great place to share the most interesting links you can imagine",
+  description:
+    "Linkshare is a great place to share the most interesting links you can imagine",
 };
 
 export default function RootLayout({
@@ -18,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "h-screen")}>{children}</body>
+      <body className={cn(inter.className, "min-h-screen h-screen")}>
+        {children}
+      </body>
     </html>
   );
 }

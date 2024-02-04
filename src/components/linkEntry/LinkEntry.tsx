@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Chip } from "@/components/chip/Chip";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { type LinkEntry as LinkEntryType } from "@/api/entries/getEntries";
 
 type LinkEntryThumbnailProps = {
   imageUrl: string;
@@ -20,33 +21,29 @@ const LinkEntryThumbnail = ({
 }: LinkEntryThumbnailProps) => (
   <Image
     className={cn("rounded-2xl", className)}
-    width={200}
-    height={120}
+    fill={true}
+    objectFit="cover"
     src={imageUrl}
     alt=""
   />
 );
 
 type LinkEntryProps = {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  imageUrl: string;
-  votesCount: number;
-  author: {
-    imageUrl: string;
-    fullName: string;
-  };
-  tags: string[];
+  title: LinkEntryType["title"];
+  description: LinkEntryType["description"];
+  url: LinkEntryType["resource_url"];
+  thumbnailUrl: LinkEntryType["thumbnail"];
+  score: LinkEntryType["score"];
+  author: LinkEntryType["user"];
+  tags: LinkEntryType["tags"];
 };
 
 export const LinkEntry = ({
   title,
   description,
   url,
-  imageUrl,
-  votesCount,
+  thumbnailUrl,
+  score,
   author,
   tags,
 }: LinkEntryProps) => (
@@ -68,7 +65,14 @@ export const LinkEntry = ({
           ))}
         </div>
       </div>
-      <LinkEntryThumbnail imageUrl={imageUrl} className="hidden sm:block" />
+      {thumbnailUrl && (
+        <div className="relative w-44 h-28">
+          <LinkEntryThumbnail
+            imageUrl={thumbnailUrl}
+            className="hidden sm:block"
+          />
+        </div>
+      )}
     </CardContent>
   </Card>
 );

@@ -7,7 +7,13 @@ const nextConfig = {
                 hostname: 'picsum.photos',
                 port: '',
                 pathname: '/**/**'
-            }
+            },
+            {
+                protocol: "https",
+                hostname: process.env.API_MEDIA_HOST_URL,
+                port: '',
+                pathname: '/**/**'
+            },
         ]
     }
 };

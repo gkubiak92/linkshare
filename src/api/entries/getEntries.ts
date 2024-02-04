@@ -15,6 +15,11 @@ export type LinkEntry = {
   created_at: string;
 };
 
+type GetEntriesParams = {
+  page: number;
+  perPage?: number;
+};
+
 type GetEntriesResponse = {
   count: number;
   next: string | null;
@@ -22,8 +27,17 @@ type GetEntriesResponse = {
   results: LinkEntry[];
 };
 
-export async function getEntries(page = 1): Promise<GetEntriesResponse> {
-  const res = await client(`/resources?page=${page}`);
+export async function getEntries({
+  page,
+  perPage,
+}: GetEntriesParams): Promise<GetEntriesResponse> {
+  const searchParams = new URLSearchParams({ page: page.toString() });
+
+  if (perPage) {
+    searchParams.set("per_page", perPage.toString());
+  }
+
+  const res = await client(`/resources?${searchParams}`);
 
   if (!res.ok) {
     throw new Error("Failed to fetch entries");

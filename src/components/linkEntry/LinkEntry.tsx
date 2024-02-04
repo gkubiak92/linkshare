@@ -22,13 +22,13 @@ const LinkEntryThumbnail = ({
   <Image
     className={cn("rounded-2xl", className)}
     fill={true}
-    objectFit="cover"
+    object-fit="cover"
     src={imageUrl}
     alt=""
   />
 );
 
-type LinkEntryProps = {
+export type LinkEntryProps = {
   title: LinkEntryType["title"];
   description: LinkEntryType["description"];
   url: LinkEntryType["resource_url"];

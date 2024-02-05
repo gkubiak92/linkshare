@@ -12,11 +12,9 @@ export const metadata: Metadata = {
     "Linkshare is a great place to share the most interesting links you can imagine",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: ReactNode;
-}>) {
+type RootLayoutProps = Readonly<{ children: ReactNode }>;
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body className={cn(inter.className, "min-h-screen h-screen")}>

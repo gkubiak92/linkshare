@@ -9,6 +9,7 @@ import { Chip } from "@/components/chip/Chip";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { type LinkEntry as LinkEntryType } from "@/api/entries/getEntries";
+import { routes } from "@/routes";
 
 type LinkEntryThumbnailProps = {
   imageUrl: string;
@@ -59,9 +60,9 @@ export const LinkEntry = ({
         </Link>
         <div className="flex gap-2">
           {tags.map((tag, index) => (
-            <Chip key={index} className="block text-xs">
-              {tag}
-            </Chip>
+            <Link key={index} href={`${routes.tags}/${tag}`}>
+              <Chip className="block text-xs">#{tag}</Chip>
+            </Link>
           ))}
         </div>
       </div>

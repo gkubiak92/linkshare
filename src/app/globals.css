@@ -67,10 +67,16 @@
 }
  
 @layer base {
+  html {
+    scrollbar-gutter: both-edges;
+  }
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  body[style] {
+    margin: 0 auto !important;
   }
 }

@@ -21,9 +21,8 @@ const LinkEntryThumbnail = ({
   className,
 }: LinkEntryThumbnailProps) => (
   <Image
-    className={cn("rounded-2xl", className)}
+    className={cn("rounded-xl md:rounded-2xl object-cover", className)}
     fill={true}
-    object-fit="cover"
     src={imageUrl}
     alt=""
   />
@@ -49,16 +48,26 @@ export const LinkEntry = ({
   tags,
 }: LinkEntryProps) => (
   <Card className="shadow-accent">
-    <CardHeader className="text-xl capitalize pb-2">{title}</CardHeader>
+    <CardHeader className="pb-0 md:pb-2">
+      {thumbnailUrl && (
+        <div className="block md:hidden relative w-full h-28">
+          <LinkEntryThumbnail imageUrl={thumbnailUrl} />
+        </div>
+      )}
+      <span className="text-md md:text-xl capitalize">{title}</span>
+    </CardHeader>
     <CardContent className="flex items-start gap-4">
-      <div className="flex flex-col flex-1">
+      <div className="flex flex-col flex-1 max-w-full">
         <CardDescription className="h-16 max-h-16 overflow-hidden line-clamp-3">
           {description}
         </CardDescription>
-        <Link href={url} className="block text-blue-600 text-xs mb-2">
+        <Link
+          href={url}
+          className="block text-blue-600 text-xs mb-2 break-words"
+        >
           {url}
         </Link>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           {tags.map((tag, index) => (
             <Link key={index} href={`${routes.tags}/${tag}`}>
               <Chip className="block text-xs">#{tag}</Chip>
@@ -67,11 +76,8 @@ export const LinkEntry = ({
         </div>
       </div>
       {thumbnailUrl && (
-        <div className="relative w-44 h-28">
-          <LinkEntryThumbnail
-            imageUrl={thumbnailUrl}
-            className="hidden sm:block"
-          />
+        <div className="hidden md:block relative w-44 h-28">
+          <LinkEntryThumbnail imageUrl={thumbnailUrl} />
         </div>
       )}
     </CardContent>

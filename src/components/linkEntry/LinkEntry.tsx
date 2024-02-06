@@ -69,7 +69,10 @@ export const LinkEntry = ({
         </Link>
         <div className="flex gap-2 flex-wrap">
           {tags.map((tag, index) => (
-            <Link key={index} href={`${routes.tags}/${tag}`}>
+            <Link
+              key={index}
+              href={`${routes.tags}/${encodeURIComponent(tag)}`}
+            >
               <Chip className="block text-xs">#{tag}</Chip>
             </Link>
           ))}

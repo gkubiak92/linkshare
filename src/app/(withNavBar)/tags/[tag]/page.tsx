@@ -20,10 +20,11 @@ export default async function Tags({ params, searchParams }: TagsProps) {
     ? parseInt(searchParams.perPage)
     : DEFAULT_PER_PAGE;
 
+  const tag = decodeURIComponent(params.tag);
   const { results, count } = await getEntries({
     page,
     perPage,
-    tags: params.tag,
+    tags: tag,
   });
   const resultsWithThumbnails = results.filter(
     ({ thumbnail }) => thumbnail === null || thumbnail.endsWith(".jpg"),
@@ -33,7 +34,7 @@ export default async function Tags({ params, searchParams }: TagsProps) {
 
   return (
     <>
-      <h2 className="text-4xl mb-8">Entries with tag: {params.tag}</h2>
+      <h2 className="text-4xl mb-8">Entries with tag: {tag}</h2>
       <div className="flex flex-col gap-4 max-w-screen-md mb-4">
         {resultsWithThumbnails.map(
           ({

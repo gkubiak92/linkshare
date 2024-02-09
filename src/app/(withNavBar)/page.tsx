@@ -2,6 +2,8 @@ import { getEntries } from "@/api/entries/getEntries";
 import { LinkEntry } from "@/components/linkEntry/LinkEntry";
 import { Pagination } from "@/components/pagination/Pagination";
 import TrendingTags from "@/components/trendingTags/TrendingTags";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 type HomeProps = {
   params: Record<string, unknown>;
@@ -27,7 +29,7 @@ export default async function Home({ searchParams }: HomeProps) {
   const pagesCount = Math.ceil(count / perPage);
 
   return (
-    <>
+    <Suspense fallback={<Loading />}>
       <section className="flex items-start flex-col lg:flex-row gap-4">
         <TrendingTags className="order-1 lg:order-2" />
         <div className="flex flex-col gap-4 max-w-full mb-4 order-2 lg:order-1">
@@ -58,6 +60,6 @@ export default async function Home({ searchParams }: HomeProps) {
         </div>
       </section>
       <Pagination currentPage={page} pagesCount={pagesCount} />
-    </>
+    </Suspense>
   );
 }

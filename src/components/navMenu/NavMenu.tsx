@@ -28,14 +28,19 @@ export const NavMenu = () => (
       </Button>
     </div>
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar className="block md:hidden">
+      <DropdownMenuTrigger className="block md:hidden">
+        <Avatar>
           <AvatarFallback>?</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end">
         <Link href={routes.login}>
-          <DropdownMenuItem>Login</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">Login</DropdownMenuItem>
+        </Link>
+        <Link href={routes.register}>
+          <DropdownMenuItem className="cursor-pointer">
+            Register
+          </DropdownMenuItem>
         </Link>
       </DropdownMenuContent>
     </DropdownMenu>

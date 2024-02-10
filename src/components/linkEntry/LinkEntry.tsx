@@ -71,7 +71,7 @@ export const LinkEntry = ({
           {tags.map((tag, index) => (
             <Link
               key={index}
-              href={`${routes.tags}/${encodeURIComponent(tag)}`}
+              href={`${routes.links.tags}/${encodeURIComponent(tag)}`}
             >
               <Chip className="block text-xs">#{tag}</Chip>
             </Link>

@@ -6,5 +6,27 @@
   },
   "index": {
     "allEntries": "Wszystkie linki"
+  },
+  "pagination": {
+    "previous": "Poprzednia",
+    "next": "Następna"
+  },
+  "trendingTags": {
+    "title": "Tagi na czasie"
+  },
+  "login": {
+    "title": "Witaj!",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Hasło",
+    "submitButton": "Zaloguj",
+    "dontHaveAccount": "Nie masz konta? Kliknij tutaj aby się zarejestrować"
+  },
+  "register": {
+    "title": "Załóż nowe konto",
+    "emailLabel": "E-mail",
+    "passwordLabel": "Hasło",
+    "repeatPasswordLabel": "Powtórz hasło",
+    "submitButton": "Zarejestruj",
+    "alreadyHaveAnAccount": "Masz jużkonto? Kliknij tutaj aby się zalogować"
   }
 }

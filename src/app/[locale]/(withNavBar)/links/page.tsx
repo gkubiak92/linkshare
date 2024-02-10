@@ -3,13 +3,13 @@ import { LinkEntry } from "@/components/linkEntry/LinkEntry";
 import { Pagination } from "@/components/pagination/Pagination";
 import TrendingTags from "@/components/trendingTags/TrendingTags";
 import { Suspense } from "react";
-import Loading from "./loading";
+import Loading from "../loading";
 import { getTranslations } from "next-intl/server";
 
 type HomeProps = {
   params: Record<string, unknown>;
   searchParams: {
-    page?: string;
+    page: string;
     perPage?: string;
   };
 };

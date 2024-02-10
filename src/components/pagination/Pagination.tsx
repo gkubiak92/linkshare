@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/pagination";
 import { usePathname, useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
+import { useTranslations } from "next-intl";
 
 type PaginationProps = {
   currentPage: number;
@@ -28,7 +29,12 @@ const getPageUrl = (
   return `${path}?${searchParams}`;
 };
 
-export const Pagination = ({ currentPage, pagesCount }: PaginationProps) => {
+export const Pagination = async ({
+  currentPage,
+  pagesCount,
+}: PaginationProps) => {
+  const t = useTranslations("pagination");
+
   const path = usePathname();
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
@@ -46,7 +52,10 @@ export const Pagination = ({ currentPage, pagesCount }: PaginationProps) => {
   if (currentPage > 1) {
     paginationItems.push(
       <PaginationItem key="pagination-previous">
-        <PaginationPrevious href={getPageUrl(currentPage - 1, path, params)} />
+        <PaginationPrevious
+          href={getPageUrl(currentPage - 1, path, params)}
+          label={t("previous")}
+        />
       </PaginationItem>,
     );
   }
@@ -127,7 +136,10 @@ export const Pagination = ({ currentPage, pagesCount }: PaginationProps) => {
   if (currentPage < pagesCount) {
     paginationItems.push(
       <PaginationItem key="pagination-next">
-        <PaginationNext href={getPageUrl(currentPage + 1, path, params)} />
+        <PaginationNext
+          href={getPageUrl(currentPage + 1, path, params)}
+          label={t("next")}
+        />
       </PaginationItem>,
     );
   }

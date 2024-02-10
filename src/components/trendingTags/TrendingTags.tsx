@@ -1,6 +1,6 @@
 import { getTags } from "@/api/tags/getTags";
 import { Chip } from "@/components/chip/Chip";
-import Link from "next/link";
+import { Link } from "@/components/link/Link";
 import { routes } from "@/routes";
 import { cn } from "@/lib/utils";
 

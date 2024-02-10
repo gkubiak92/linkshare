@@ -4,6 +4,7 @@ import { Pagination } from "@/components/pagination/Pagination";
 import TrendingTags from "@/components/trendingTags/TrendingTags";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { getTranslations } from "next-intl/server";
 
 type HomeProps = {
   params: Record<string, unknown>;
@@ -16,6 +17,8 @@ type HomeProps = {
 const DEFAULT_PER_PAGE = 20;
 
 export default async function Home({ searchParams }: HomeProps) {
+  const t = await getTranslations("index");
+
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
   const perPage = !!searchParams.perPage
     ? parseInt(searchParams.perPage)
@@ -33,7 +36,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <section className="flex items-start flex-col lg:flex-row gap-4">
         <TrendingTags className="flex-1 order-1 lg:order-2" />
         <div className="flex flex-col gap-4 flex-[2] max-w-full mb-4 order-2 lg:order-1">
-          <h2 className="text-4xl mb-2">All entries</h2>
+          <h2 className="text-4xl mb-2">{t("allEntries")}</h2>
           {resultsWithThumbnails.map(
             ({
               id,

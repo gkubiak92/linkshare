@@ -1,0 +1,10 @@
+{
+  "navBar": {
+    "login": "Login",
+    "register": "Register",
+    "search": "Search..."
+  },
+  "index": {
+    "allEntries": "All entries"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "navBar": {
+    "login": "Logowanie",
+    "register": "Rejestracja",
+    "search": "Wyszukaj..."
+  },
+  "index": {
+    "allEntries": "Wszystkie linki"
+  }
+}

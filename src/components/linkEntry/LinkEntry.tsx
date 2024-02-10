@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
 } from "@/components/ui/card";
-import Link from "next/link";
+import { Link } from "@/components/link/Link";
 import { Chip } from "@/components/chip/Chip";
 import { cn } from "@/lib/utils";
 import Image from "next/image";

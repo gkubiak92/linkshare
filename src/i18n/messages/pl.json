@@ -2,7 +2,8 @@
   "navBar": {
     "login": "Logowanie",
     "register": "Rejestracja",
-    "search": "Wyszukaj..."
+    "search": "Wyszukaj...",
+    "logout": "Wyloguj"
   },
   "index": {
     "allEntries": "Wszystkie linki"

@@ -29,10 +29,7 @@ const getPageUrl = (
   return `${path}?${searchParams}`;
 };
 
-export const Pagination = async ({
-  currentPage,
-  pagesCount,
-}: PaginationProps) => {
+export const Pagination = ({ currentPage, pagesCount }: PaginationProps) => {
   const t = useTranslations("pagination");
 
   const path = usePathname();

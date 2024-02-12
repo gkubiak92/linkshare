@@ -2,7 +2,8 @@
   "navBar": {
     "login": "Login",
     "register": "Register",
-    "search": "Search..."
+    "search": "Search...",
+    "logout": "Wyloguj"
   },
   "index": {
     "allEntries": "All entries"

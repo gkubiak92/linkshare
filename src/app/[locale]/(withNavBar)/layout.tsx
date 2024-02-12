@@ -5,7 +5,9 @@ type LayoutWithNavbarProps = {
   children: ReactNode;
 };
 
-export default function LayoutWithNavBar({ children }: LayoutWithNavbarProps) {
+export default async function LayoutWithNavBar({
+  children,
+}: LayoutWithNavbarProps) {
   return (
     <>
       <NavMenu />

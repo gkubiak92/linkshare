@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 
 export const client = (input: string | URL | Request, init?: RequestInit) => {
   const headers = new Headers(init?.headers);
+  headers.append("Content-Type", "application/json");
 
   const sessionId = cookies().get("sessionid")?.value;
   if (sessionId) {

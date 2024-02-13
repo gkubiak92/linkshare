@@ -12,9 +12,6 @@ type LoginResponse = {
 export async function login(params: LoginParams): Promise<LoginResponse> {
   const response = await client("/auth/login/", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(params),
   });
 

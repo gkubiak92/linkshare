@@ -12,7 +12,7 @@ import { Link } from "@/components/link/Link";
 import { getTranslations } from "next-intl/server";
 import { getMe } from "@/api/users/getMe";
 
-export const NavMenu = async () => {
+export async function NavMenu() {
   const user = await getMe();
   const isLoggedIn = !!user;
   const t = await getTranslations("navBar");
@@ -78,4 +78,4 @@ export const NavMenu = async () => {
       </DropdownMenu>
     </nav>
   );
-};
+}

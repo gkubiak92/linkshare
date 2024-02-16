@@ -29,5 +29,8 @@
     "repeatPasswordLabel": "Powtórz hasło",
     "submitButton": "Zarejestruj",
     "alreadyHaveAnAccount": "Masz jużkonto? Kliknij tutaj aby się zalogować"
+  },
+  "tags": {
+    "title": "Entries with tag: #{tag}"
   }
 }

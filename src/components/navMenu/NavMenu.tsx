@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { apiRoutes, routes } from "@/routes";
+import { routes } from "@/routes";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -10,10 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Link } from "@/components/link/Link";
 import { getTranslations } from "next-intl/server";
-import { getMe } from "@/api/users/getMe";
+import { User } from "@/lib/services/users/types";
 
 export async function NavMenu() {
-  const user = await getMe();
+  // TODO get user from db based on sessionId/JWT
+  const user: User | null = null;
   const isLoggedIn = !!user;
   const t = await getTranslations("navBar");
 
@@ -32,7 +33,8 @@ export async function NavMenu() {
       <div className="hidden md:flex gap-4 items-center">
         {isLoggedIn ? (
           <Button asChild variant="outline">
-            <Link href={apiRoutes.logout}>{t("logout")}</Link>
+            {/*TODO adjust logout click*/}
+            <Link href={"/logout"}>{t("logout")}</Link>
           </Button>
         ) : (
           <>
@@ -49,13 +51,15 @@ export async function NavMenu() {
         <DropdownMenuTrigger className="block md:hidden">
           <Avatar>
             <AvatarFallback>
-              {user ? user.username[0].toUpperCase() : "?"}
+              {/* TODO remove casting once user fetching is implemented*/}
+              {user ? (user as User).name.toUpperCase() : "?"}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="end">
           {isLoggedIn ? (
-            <Link href={apiRoutes.logout}>
+            // TODO adjust logout click
+            <Link href={"/logout"}>
               <DropdownMenuItem className="cursor-pointer">
                 {t("logout")}
               </DropdownMenuItem>

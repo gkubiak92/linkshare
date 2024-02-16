@@ -1,10 +1,10 @@
-import { getEntries } from "@/api/entries/getEntries";
 import { LinkEntry } from "@/components/linkEntry/LinkEntry";
 import { Pagination } from "@/components/pagination/Pagination";
 import TrendingTags from "@/components/trendingTags/TrendingTags";
 import { Suspense } from "react";
 import Loading from "../loading";
 import { getTranslations } from "next-intl/server";
+import { getLinkEntries } from "@/lib/services/linkEntries/getLinkEntries";
 
 type HomeProps = {
   params: Record<string, unknown>;
@@ -20,16 +20,16 @@ export default async function Home({ searchParams }: HomeProps) {
   const t = await getTranslations("index");
 
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
-  const perPage = !!searchParams.perPage
+  const limit = !!searchParams.perPage
     ? parseInt(searchParams.perPage)
     : DEFAULT_PER_PAGE;
 
-  const { results, count } = await getEntries({ page, perPage });
-  const resultsWithThumbnails = results.filter(
-    ({ thumbnail }) => thumbnail === null || thumbnail.endsWith(".jpg"),
-  );
+  const { data, pagination } = await getLinkEntries({
+    limit,
+    offset: (page - 1) * limit,
+  });
 
-  const pagesCount = Math.ceil(count / perPage);
+  const pagesCount = Math.ceil(pagination.total / limit);
 
   return (
     <Suspense fallback={<Loading />}>
@@ -37,29 +37,9 @@ export default async function Home({ searchParams }: HomeProps) {
         <TrendingTags className="flex-1 order-1 lg:order-2" />
         <div className="flex flex-col gap-4 flex-[2] max-w-full mb-4 order-2 lg:order-1">
           <h2 className="text-4xl mb-2">{t("allEntries")}</h2>
-          {resultsWithThumbnails.map(
-            ({
-              id,
-              title,
-              description,
-              resource_url,
-              thumbnail,
-              score,
-              user,
-              tags,
-            }) => (
-              <LinkEntry
-                key={id}
-                title={title}
-                description={description}
-                url={resource_url}
-                thumbnailUrl={thumbnail}
-                score={score}
-                author={user}
-                tags={tags}
-              />
-            ),
-          )}
+          {data.map(({ id, ...props }) => (
+            <LinkEntry key={id} {...props} />
+          ))}
         </div>
       </section>
       <Pagination currentPage={page} pagesCount={pagesCount} />

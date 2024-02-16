@@ -8,7 +8,7 @@ import { Link } from "@/components/link/Link";
 import { Chip } from "@/components/chip/Chip";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { type LinkEntry as LinkEntryType } from "@/api/entries/getEntries";
+import { type LinkEntry as LinkEntryType } from "@/lib/services/linkEntries/types";
 import { routes } from "@/routes";
 
 type LinkEntryThumbnailProps = {
@@ -28,24 +28,16 @@ const LinkEntryThumbnail = ({
   />
 );
 
-export type LinkEntryProps = {
-  title: LinkEntryType["title"];
-  description: LinkEntryType["description"];
-  url: LinkEntryType["resource_url"];
-  thumbnailUrl: LinkEntryType["thumbnail"];
-  score: LinkEntryType["score"];
-  author: LinkEntryType["user"];
-  tags: LinkEntryType["tags"];
-};
+export type LinkEntryProps = Omit<LinkEntryType, "id">;
 
 export const LinkEntry = ({
   title,
   description,
   url,
   thumbnailUrl,
-  score,
-  author,
+  user,
   tags,
+  createdAt,
 }: LinkEntryProps) => (
   <Card className="shadow-accent">
     <CardHeader className="pb-0 md:pb-2">
@@ -68,12 +60,12 @@ export const LinkEntry = ({
           {url}
         </Link>
         <div className="flex gap-2 flex-wrap">
-          {tags.map((tag, index) => (
+          {tags.map(({ name }, index) => (
             <Link
               key={index}
-              href={`${routes.links.tags}/${encodeURIComponent(tag)}`}
+              href={`${routes.links.tags}/${encodeURIComponent(name)}`}
             >
-              <Chip className="block text-xs">#{tag}</Chip>
+              <Chip className="block text-xs">#{name}</Chip>
             </Link>
           ))}
         </div>

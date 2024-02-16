@@ -1,0 +1,1 @@
+ALTER TABLE "tagsToLinkEntries" ADD COLUMN "id" serial NOT NULL;

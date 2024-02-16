@@ -1,6 +1,7 @@
-import { getEntries } from "@/api/entries/getEntries";
 import { LinkEntry } from "@/components/linkEntry/LinkEntry";
 import { Pagination } from "@/components/pagination/Pagination";
+import { getLinkEntries } from "@/lib/services/linkEntries/getLinkEntries";
+import { getTranslations } from "next-intl/server";
 
 type TagsProps = {
   params: {
@@ -15,50 +16,29 @@ type TagsProps = {
 const DEFAULT_PER_PAGE = 20;
 
 export default async function Tags({ params, searchParams }: TagsProps) {
+  const t = await getTranslations("tags");
+
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
-  const perPage = !!searchParams.perPage
+  const limit = !!searchParams.perPage
     ? parseInt(searchParams.perPage)
     : DEFAULT_PER_PAGE;
-
   const tag = decodeURIComponent(params.tag);
-  const { results, count } = await getEntries({
-    page,
-    perPage,
-    tags: tag,
-  });
-  const resultsWithThumbnails = results.filter(
-    ({ thumbnail }) => thumbnail === null || thumbnail.endsWith(".jpg"),
-  );
 
-  const pagesCount = Math.ceil(count / perPage);
+  const { data, pagination } = await getLinkEntries({
+    tag,
+    limit,
+    offset: (page - 1) * limit,
+  });
+
+  const pagesCount = Math.ceil(pagination.total / limit);
 
   return (
     <>
-      <h2 className="text-4xl mb-8">Entries with tag: {tag}</h2>
+      <h2 className="text-4xl mb-8">{t("title", { tag })}</h2>
       <div className="flex flex-col gap-4 max-w-screen-md mb-4">
-        {resultsWithThumbnails.map(
-          ({
-            id,
-            title,
-            description,
-            resource_url,
-            thumbnail,
-            score,
-            user,
-            tags,
-          }) => (
-            <LinkEntry
-              key={id}
-              title={title}
-              description={description}
-              url={resource_url}
-              thumbnailUrl={thumbnail}
-              score={score}
-              author={user}
-              tags={tags}
-            />
-          ),
-        )}
+        {data.map(({ id, ...props }) => (
+          <LinkEntry key={id} {...props} />
+        ))}
       </div>
       <Pagination currentPage={page} pagesCount={pagesCount} />
     </>

@@ -8,16 +8,11 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: 'picsum.photos',
+                hostname: '*',
                 port: '',
                 pathname: '/**/**'
             },
-            {
-                protocol: "https",
-                hostname: process.env.API_MEDIA_HOST_URL,
-                port: '',
-                pathname: '/**/**'
-            },
+
         ]
     },
 };

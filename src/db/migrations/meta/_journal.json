@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1707933409067,
+      "tag": "0000_late_thunderbolts",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1707934928070,
+      "tag": "0001_stiff_preak",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1707989050009,
+      "tag": "0002_freezing_peter_parker",
+      "breakpoints": true
+    }
+  ]
+}

@@ -1,6 +1,12 @@
 import { db } from "@/db";
-import { count, eq, getTableColumns } from "drizzle-orm";
-import { linkEntries, tags, tagsToLinkEntries, users } from "@/db/schema";
+import { count, eq, getTableColumns, sum } from "drizzle-orm";
+import {
+  linkEntries,
+  tags,
+  tagsToLinkEntries,
+  users,
+  votesToLinkEntries,
+} from "@/db/schema";
 import { LinkEntry } from "./types";
 
 type GetLinkEntriesParams = {
@@ -45,27 +51,47 @@ export async function getLinkEntries({
   const query = !!tag ? getSubQueryWithTag(tag) : subQuery;
 
   const dataResult = await db
-    .select()
+    .select({
+      ...getTableColumns(linkEntries),
+      user: { ...getTableColumns(users) },
+      tags: { ...getTableColumns(tags) },
+      score: sum(votesToLinkEntries.vote),
+    })
     .from(query.limit(limit).offset(offset).as("linkEntries"))
     .leftJoin(users, eq(linkEntries.userId, users.id))
     .innerJoin(
       tagsToLinkEntries,
       eq(tagsToLinkEntries.linkEntryId, linkEntries.id),
     )
-    .innerJoin(tags, eq(tagsToLinkEntries.tagId, tags.id));
+    .innerJoin(tags, eq(tagsToLinkEntries.tagId, tags.id))
+    .leftJoin(
+      votesToLinkEntries,
+      eq(votesToLinkEntries.linkEntryId, linkEntries.id),
+    )
+    .groupBy(
+      linkEntries.id,
+      linkEntries.title,
+      linkEntries.description,
+      linkEntries.url,
+      linkEntries.thumbnailUrl,
+      linkEntries.userId,
+      linkEntries.createdAt,
+      users.id,
+      tags.id,
+      tags.name,
+    );
 
   const data = Object.values(
     dataResult.reduce<Record<number, any>>((acc, next) => {
-      const previousTags = !!acc[next.linkEntries.id]
-        ? acc[next.linkEntries.id].tags
-        : [];
+      const previousTags = !!acc[next.id] ? acc[next.id].tags : [];
 
       return {
         ...acc,
-        [next.linkEntries.id]: {
-          ...next.linkEntries,
-          user: next.users,
+        [next.id]: {
+          ...next,
+          user: next.user,
           tags: [...previousTags, next.tags],
+          score: Number(next.score) || 0,
         },
       };
     }, {}),

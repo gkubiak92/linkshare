@@ -39,6 +39,7 @@ export const linkEntries = pgTable("linkEntries", {
 export const linkEntriesRelations = relations(linkEntries, ({ one, many }) => ({
   user: one(users, { fields: [linkEntries.userId], references: [users.id] }),
   tags: many(tagsToLinkEntries),
+  votes: many(votesToLinkEntries),
 }));
 
 export const tags = pgTable("tags", {
@@ -70,6 +71,27 @@ export const tagsToLinkEntriesRelations = relations(
     }),
     linkEntry: one(linkEntries, {
       fields: [tagsToLinkEntries.linkEntryId],
+      references: [linkEntries.id],
+    }),
+  }),
+);
+
+export const votesToLinkEntries = pgTable("votesToLinkEntries", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId")
+    .notNull()
+    .references(() => users.id),
+  linkEntryId: integer("linkEntryId")
+    .notNull()
+    .references(() => linkEntries.id),
+  vote: integer("vote"),
+});
+
+export const votesToLinkEntriesRelations = relations(
+  votesToLinkEntries,
+  ({ one }) => ({
+    linkEntry: one(linkEntries, {
+      fields: [votesToLinkEntries.linkEntryId],
       references: [linkEntries.id],
     }),
   }),

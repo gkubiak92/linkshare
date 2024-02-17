@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { type LinkEntry as LinkEntryType } from "@/lib/services/linkEntries/types";
 import { routes } from "@/routes";
+import { Button } from "@/components/ui/button";
 
 type LinkEntryThumbnailProps = {
   imageUrl: string;
@@ -28,7 +29,7 @@ const LinkEntryThumbnail = ({
   />
 );
 
-export type LinkEntryProps = Omit<LinkEntryType, "id">;
+export type LinkEntryProps = Omit<LinkEntryType, "id"> & { canVote?: boolean };
 
 export const LinkEntry = ({
   title,
@@ -37,6 +38,8 @@ export const LinkEntry = ({
   thumbnailUrl,
   user,
   tags,
+  score,
+  canVote,
   createdAt,
 }: LinkEntryProps) => (
   <Card className="shadow-accent">
@@ -59,7 +62,7 @@ export const LinkEntry = ({
         >
           {url}
         </Link>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2 flex-wrap mb-2">
           {tags.map(({ name }, index) => (
             <Link
               key={index}
@@ -68,6 +71,16 @@ export const LinkEntry = ({
               <Chip className="block text-xs">#{name}</Chip>
             </Link>
           ))}
+        </div>
+        <div className="flex items-center gap-2 text-2xl text-muted-foreground">
+          <span className="block">🎯</span>
+          <span className="block text-lg text-zinc-500">{score}</span>
+          {canVote && (
+            <>
+              <Button variant="ghost">👍</Button>
+              <Button variant="ghost">👎</Button>
+            </>
+          )}
         </div>
       </div>
       {thumbnailUrl && (

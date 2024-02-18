@@ -7,3 +7,7 @@ export const routes = {
   login: "/login",
   register: "/register",
 };
+
+export const apiRoutes = {
+  logout: "/api/logout",
+};

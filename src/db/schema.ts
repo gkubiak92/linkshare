@@ -16,6 +16,7 @@ export const users = pgTable(
     email: text("email").notNull(),
     image: text("image").notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
+    password: text("password").notNull().default(""),
   },
   (users) => {
     return {

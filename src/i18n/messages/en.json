@@ -20,7 +20,10 @@
     "emailLabel": "E-mail",
     "passwordLabel": "Hasło",
     "submitButton": "Zaloguj",
-    "dontHaveAccount": "Nie masz konta? Kliknij tutaj aby się zarejestrować"
+    "dontHaveAccount": "Nie masz konta? Kliknij tutaj aby się zarejestrować",
+    "errors": {
+      "invalidCredentials": "Wprowadzono niepoprawne dane"
+    }
   },
   "register": {
     "title": "Załóż nowe konto",

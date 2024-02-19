@@ -95,7 +95,7 @@ export const LinkEntry = ({
           <span className="block text-zinc-500 text-sm">{user.name}</span>
           <Image
             className="rounded-full"
-            src={user.image}
+            src={user.image || "/assets/avatar.png"}
             width={24}
             height={24}
             alt={`${user.name} avatar image`}

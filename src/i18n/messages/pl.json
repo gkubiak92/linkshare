@@ -28,12 +28,22 @@
   "register": {
     "title": "Załóż nowe konto",
     "emailLabel": "E-mail",
+    "usernameLabel": "Nazwa użytkownika",
     "passwordLabel": "Hasło",
     "repeatPasswordLabel": "Powtórz hasło",
     "submitButton": "Zarejestruj",
-    "alreadyHaveAnAccount": "Masz już konto? Kliknij tutaj aby się zalogować"
+    "alreadyHaveAnAccount": "Masz już konto? Kliknij tutaj aby się zalogować",
+    "successToast": {
+      "title": "Pomyślnie zarejestrowano użytkownika.",
+      "description": "Możesz teraz przejść do strony logowania aby się zalogować"
+    }
   },
   "tags": {
     "title": "Wpisy z tagiem: #{tag}"
+  },
+  "validators": {
+    "notEmail": "Proszę wprowadź poprawny adres e-mail",
+    "passwordsDontMatch": "Podane hasła różnią się od siebie",
+    "passwordTooShort": "Wprowadzone hasło jest zbyt krótkie"
   }
 }

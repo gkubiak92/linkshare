@@ -3,37 +3,47 @@
     "login": "Login",
     "register": "Register",
     "search": "Search...",
-    "logout": "Wyloguj"
+    "logout": "Logout"
   },
   "index": {
     "allEntries": "All entries"
   },
   "pagination": {
-    "previous": "Poprzednia",
-    "next": "Następna"
+    "previous": "Previous",
+    "next": "Next"
   },
   "trendingTags": {
-    "title": "Tagi na czasie"
+    "title": "Trending Tags"
   },
   "login": {
-    "title": "Witaj!",
+    "title": "Welcome!",
     "emailLabel": "E-mail",
-    "passwordLabel": "Hasło",
-    "submitButton": "Zaloguj",
-    "dontHaveAccount": "Nie masz konta? Kliknij tutaj aby się zarejestrować",
+    "passwordLabel": "Password",
+    "submitButton": "Log in",
+    "dontHaveAccount": "Don't have an account? Click here to register",
     "errors": {
-      "invalidCredentials": "Wprowadzono niepoprawne dane"
+      "invalidCredentials": "Invalid credentials provided"
     }
   },
   "register": {
-    "title": "Załóż nowe konto",
+    "title": "Create a new account",
     "emailLabel": "E-mail",
-    "passwordLabel": "Hasło",
-    "repeatPasswordLabel": "Powtórz hasło",
-    "submitButton": "Zarejestruj",
-    "alreadyHaveAnAccount": "Masz jużkonto? Kliknij tutaj aby się zalogować"
+    "usernameLabel": "Username",
+    "passwordLabel": "Password",
+    "repeatPasswordLabel": "Repeat password",
+    "submitButton": "Register",
+    "alreadyHaveAnAccount": "Already have an account? Click here to log in",
+    "successToast": {
+      "title": "User has been registered successfully",
+      "description": "You can now go to the login page in order to log in."
+    }
   },
   "tags": {
     "title": "Entries with tag: #{tag}"
+  },
+  "validators": {
+    "notEmail": "Please provide a valid e-mail address",
+    "passwordsDontMatch": "Provided passwords don't match",
+    "passwordTooShort": "Provided password is too short"
   }
 }

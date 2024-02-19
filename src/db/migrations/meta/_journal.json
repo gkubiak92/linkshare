@@ -36,6 +36,13 @@
       "when": 1708271064777,
       "tag": "0004_real_blazing_skull",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1708365260472,
+      "tag": "0005_blushing_goliath",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { routes } from "@/routes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,6 +13,7 @@ import { User } from "@/lib/services/users/types";
 import { getUserData } from "@/lib/services/users/getUserData";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { SearchBar } from "./searchBar/SearchBar";
 
 export async function NavMenu() {
   const t = await getTranslations("navBar");
@@ -36,10 +36,7 @@ export async function NavMenu() {
       >
         Linkshare
       </Link>
-      <Input
-        className="block max-w-screen-sm mx-auto"
-        placeholder={t("search")}
-      />
+      <SearchBar className="flex-1" />
       <div className="hidden md:flex gap-4 items-center">
         {isLoggedIn ? (
           <form action={logout}>

@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { count, eq, getTableColumns, sum } from "drizzle-orm";
+import { count, eq, getTableColumns, ilike, like, or, sum } from "drizzle-orm";
 import {
   linkEntries,
   tags,
@@ -13,6 +13,7 @@ type GetLinkEntriesParams = {
   limit: number;
   offset: number;
   tag?: string;
+  search?: string;
 };
 
 type GetLinkEntriesResponse = {
@@ -24,7 +25,7 @@ type GetLinkEntriesResponse = {
   };
 };
 
-const subQuery = db
+const baseLinkEntriesQuery = db
   .selectDistinct(getTableColumns(linkEntries))
   .from(linkEntries);
 
@@ -40,6 +41,7 @@ const getSubQueryWithTag = (tag: string) =>
     .where(({ tagName }) => eq(tagName, tag));
 
 export async function getLinkEntries({
+  search,
   limit = 20,
   offset = 0,
   tag,
@@ -48,7 +50,21 @@ export async function getLinkEntries({
     .select({ value: count() })
     .from(linkEntries);
 
-  const query = !!tag ? getSubQueryWithTag(tag) : subQuery;
+  let query = baseLinkEntriesQuery;
+
+  if (tag) {
+    // TODO find a way how to fix those types for built queries
+    // @ts-ignore-next-line
+    query = getSubQueryWithTag(tag);
+  }
+
+  if (search) {
+    // TODO find a way how to fix those types for built queries
+    // @ts-ignore-next-line
+    query = query.where(({ title, description }) =>
+      or(ilike(title, `%${search}%`), like(description, `%${search}%`)),
+    );
+  }
 
   const dataResult = await db
     .select({

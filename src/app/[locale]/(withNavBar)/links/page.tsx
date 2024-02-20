@@ -9,7 +9,8 @@ import { getLinkEntries } from "@/lib/services/linkEntries/getLinkEntries";
 type HomeProps = {
   params: Record<string, unknown>;
   searchParams: {
-    page: string;
+    search?: string;
+    page?: string;
     perPage?: string;
   };
 };
@@ -19,12 +20,14 @@ const DEFAULT_PER_PAGE = 20;
 export default async function Home({ searchParams }: HomeProps) {
   const t = await getTranslations("index");
 
+  const search = searchParams.search;
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
   const limit = !!searchParams.perPage
     ? parseInt(searchParams.perPage)
     : DEFAULT_PER_PAGE;
 
   const { data, pagination } = await getLinkEntries({
+    search,
     limit,
     offset: (page - 1) * limit,
   });

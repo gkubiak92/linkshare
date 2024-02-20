@@ -8,6 +8,7 @@ type TagsProps = {
     tag: string;
   };
   searchParams: {
+    search?: string;
     page?: string;
     perPage?: string;
   };
@@ -18,6 +19,7 @@ const DEFAULT_PER_PAGE = 20;
 export default async function Tags({ params, searchParams }: TagsProps) {
   const t = await getTranslations("tags");
 
+  const search = searchParams.search;
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
   const limit = !!searchParams.perPage
     ? parseInt(searchParams.perPage)
@@ -25,6 +27,7 @@ export default async function Tags({ params, searchParams }: TagsProps) {
   const tag = decodeURIComponent(params.tag);
 
   const { data, pagination } = await getLinkEntries({
+    search,
     tag,
     limit,
     offset: (page - 1) * limit,

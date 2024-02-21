@@ -8,6 +8,7 @@ import {
   votesToLinkEntries,
 } from "@/db/schema";
 import { LinkEntry } from "./types";
+import { unstable_cache } from "next/cache";
 
 type GetLinkEntriesParams = {
   limit: number;
@@ -40,7 +41,7 @@ const getSubQueryWithTag = (tag: string) =>
     .innerJoin(tags, eq(tagsToLinkEntries.tagId, tags.id))
     .where(({ tagName }) => eq(tagName, tag));
 
-export async function getLinkEntries({
+async function getLinkEntriesQuery({
   search,
   limit = 20,
   offset = 0,
@@ -122,3 +123,12 @@ export async function getLinkEntries({
     },
   };
 }
+
+// TODO can't wait to get rid of this :S
+export const getLinkEntries = unstable_cache(
+  async (params: GetLinkEntriesParams) => getLinkEntriesQuery(params),
+  ["linkEntries"],
+  {
+    tags: ["linkEntries"],
+  },
+);

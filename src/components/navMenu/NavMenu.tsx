@@ -39,11 +39,16 @@ export async function NavMenu() {
       <SearchBar className="flex-1" />
       <div className="hidden md:flex gap-4 items-center">
         {isLoggedIn ? (
-          <form action={logout}>
-            <Button type="submit" variant="outline">
-              {t("logout")}
+          <>
+            <Button asChild variant="link">
+              <Link href={routes.profile}>{t("myProfile")}</Link>
             </Button>
-          </form>
+            <form action={logout}>
+              <Button type="submit" variant="outline">
+                {t("logout")}
+              </Button>
+            </form>
+          </>
         ) : (
           <>
             <Button asChild variant="outline">
@@ -67,17 +72,24 @@ export async function NavMenu() {
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="end">
           {isLoggedIn ? (
-            <form action={logout}>
-              <DropdownMenuItem className="cursor-pointer">
-                <Button
-                  type="submit"
-                  variant="ghost"
-                  className="p-0 h-auto font-normal"
-                >
-                  {t("logout")}
-                </Button>
-              </DropdownMenuItem>
-            </form>
+            <>
+              <Link href={routes.profile}>
+                <DropdownMenuItem className="cursor-pointer">
+                  {t("myProfile")}
+                </DropdownMenuItem>
+              </Link>
+              <form action={logout}>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Button
+                    type="submit"
+                    variant="ghost"
+                    className="p-0 h-auto font-normal"
+                  >
+                    {t("logout")}
+                  </Button>
+                </DropdownMenuItem>
+              </form>
+            </>
           ) : (
             <>
               <Link href={routes.login}>

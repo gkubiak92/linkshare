@@ -5,6 +5,7 @@ export const routes = {
     tags: "/links/tags",
   },
   login: "/login",
+  profile: "/profile",
   register: "/register",
 };
 

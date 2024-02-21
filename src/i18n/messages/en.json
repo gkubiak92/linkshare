@@ -3,6 +3,7 @@
     "login": "Login",
     "register": "Register",
     "search": "Search...",
+    "myProfile": "Profil",
     "logout": "Logout"
   },
   "index": {
@@ -36,6 +37,17 @@
     "successToast": {
       "title": "User has been registered successfully",
       "description": "You can now go to the login page in order to log in."
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "form": {
+      "username": {
+        "label": "Username"
+      },
+      "email": {
+        "label": "E-mail address"
+      }
     }
   },
   "tags": {

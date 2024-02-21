@@ -3,6 +3,7 @@
     "login": "Logowanie",
     "register": "Rejestracja",
     "search": "Wyszukaj...",
+    "myProfile": "Profil",
     "logout": "Wyloguj"
   },
   "index": {
@@ -36,6 +37,17 @@
     "successToast": {
       "title": "Pomyślnie zarejestrowano użytkownika.",
       "description": "Możesz teraz przejść do strony logowania aby się zalogować"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "form": {
+      "username": {
+        "label": "Nazwa użytkownika"
+      },
+      "email": {
+        "label": "Adres e-mail"
+      }
     }
   },
   "tags": {

@@ -4,11 +4,11 @@ import { Input, InputProps } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import z, { util } from "zod";
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
-import Omit = util.Omit;
+import { routes } from "@/routes";
 
 type SearchBarProps = Omit<InputProps, "className"> & { className?: string };
 
@@ -20,7 +20,7 @@ type SearchFormValues = z.infer<typeof schema>;
 
 export function SearchBar({ className, ...inputProps }: SearchBarProps) {
   const t = useTranslations("navBar");
-  const path = usePathname();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -36,6 +36,14 @@ export function SearchBar({ className, ...inputProps }: SearchBarProps) {
   const onSubmit = ({ search }: SearchFormValues) => {
     const params = new URLSearchParams(searchParams);
     params.set("search", search);
+
+    // Redirect search results to main page if it's used from different route than links
+    const currentPage = pathname.substring(pathname.indexOf("/", 1)) as string;
+    const path =
+      currentPage.startsWith(routes.links.root) ||
+      currentPage.startsWith(routes.links.tags)
+        ? pathname
+        : routes.links.root;
 
     router.push(`${path}?${params}`);
   };

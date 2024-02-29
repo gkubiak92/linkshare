@@ -45,7 +45,7 @@ export const linkEntriesRelations = relations(linkEntries, ({ one, many }) => ({
 
 export const tags = pgTable("tags", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name").unique().notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 

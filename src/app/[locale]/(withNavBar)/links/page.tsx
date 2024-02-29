@@ -5,6 +5,9 @@ import { Suspense } from "react";
 import Loading from "../loading";
 import { getTranslations } from "next-intl/server";
 import { getLinkEntries } from "@/lib/services/linkEntries/getLinkEntries";
+import { AddEntryModal } from "@/components/addEntryModal/AddEntryModal";
+import { getUserData } from "@/lib/services/users/getUserData";
+import { unstable_noStore as noStore } from "next/cache";
 
 type HomeProps = {
   params: Record<string, unknown>;
@@ -19,7 +22,11 @@ const DEFAULT_PER_PAGE = 20;
 export const dynamic = "force-dynamic";
 
 export default async function Home({ searchParams }: HomeProps) {
+  // Prevent page from caching
+  noStore();
+
   const t = await getTranslations("index");
+  const { user } = await getUserData();
 
   const search = searchParams.search;
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
@@ -40,7 +47,10 @@ export default async function Home({ searchParams }: HomeProps) {
       <section className="flex items-start flex-col lg:flex-row gap-4">
         <TrendingTags className="flex-1 order-1 lg:order-2" />
         <div className="flex flex-col gap-4 flex-[2] max-w-full mb-4 order-2 lg:order-1">
-          <h2 className="text-4xl mb-2">{t("allEntries")}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="block text-4xl mb-2">{t("allEntries")}</h2>
+            {!!user && <AddEntryModal />}
+          </div>
           {data.map(({ id, ...props }) => (
             <LinkEntry key={id} {...props} />
           ))}

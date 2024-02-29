@@ -15,6 +15,11 @@ const nextConfig = {
 
         ]
     },
+    logging: {
+        fetches: {
+            fullUrl: true,
+        }
+    }
 };
 
 export default withNextIntl(nextConfig);

@@ -56,6 +56,39 @@
   "validators": {
     "notEmail": "Proszę wprowadź poprawny adres e-mail",
     "passwordsDontMatch": "Podane hasła różnią się od siebie",
-    "passwordTooShort": "Wprowadzone hasło jest zbyt krótkie"
+    "passwordTooShort": "Wprowadzone hasło jest zbyt krótkie",
+    "invalidFormat": "Nieprawidłowy format"
+  },
+  "addEntryModal": {
+    "button": "Dodaj wpis",
+    "title": "Dodaj nowy wpis",
+    "form": {
+      "title": {
+        "label": "Tytuł",
+        "placeholder": "Podaj tytuł wpisu"
+      },
+      "description": {
+        "label": "Opis",
+        "placeholder": "Podaj opis wpisu"
+      },
+      "link": {
+        "label": "Link",
+        "placeholder":"Podaj link do materiału"
+      },
+      "thumbnail": {
+        "label": "Link do miniatury",
+        "placeholder": "Podaj link do miniatury"
+      },
+      "tags": {
+        "label": "Tagi",
+        "placeholder": "Wprowadź tagi oddzielone przecinkiem"
+      },
+      "submitButton": "Dodaj",
+      "cancelButton": "Anuluj"
+    },
+    "successToast": {
+      "title": "Dodano nowy wpis",
+      "description": "Jeśli znajdziesz kolejne ciekawe materiały, podziel się z nami!"
+    }
   }
 }

@@ -56,6 +56,39 @@
   "validators": {
     "notEmail": "Please provide a valid e-mail address",
     "passwordsDontMatch": "Provided passwords don't match",
-    "passwordTooShort": "Provided password is too short"
+    "passwordTooShort": "Provided password is too short",
+    "invalidFormat": "Invalid format"
+  },
+  "addEntryModal": {
+    "button": "Add entry",
+    "title": "Add New Entry",
+    "form": {
+      "title": {
+        "label": "Title",
+        "placeholder": "Enter entry title"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter entry description"
+      },
+      "link": {
+        "label": "Link",
+        "placeholder":"Enter link to the material"
+      },
+      "thumbnail": {
+        "label": "Thumbnail Link",
+        "placeholder": "Enter thumbnail link"
+      },
+      "tags": {
+        "label": "Tags",
+        "placeholder": "Enter tags"
+      },
+      "submitButton": "Add",
+      "cancelButton": "Cancel"
+    },
+    "successToast": {
+      "title": "New Entry Added",
+      "description": "If you find more interesting materials, feel free to share them with us!"
+    }
   }
 }

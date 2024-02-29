@@ -44,7 +44,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   return (
     <Suspense fallback={<Loading />}>
-      <section className="flex items-start flex-col lg:flex-row gap-4">
+      <section className="flex items-start flex-col lg:flex-row gap-8">
         <TrendingTags className="flex-1 order-1 lg:order-2" />
         <div className="flex flex-col gap-4 flex-[2] max-w-full mb-4 order-2 lg:order-1">
           <div className="flex items-center justify-between">

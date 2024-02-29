@@ -38,7 +38,7 @@ export default async function Tags({ params, searchParams }: TagsProps) {
   return (
     <>
       <h2 className="text-4xl mb-8">{t("title", { tag })}</h2>
-      <div className="flex flex-col gap-4 max-w-screen-md mb-4">
+      <div className="flex flex-col gap-4 max-w-screen-lg mb-4">
         {data.map(({ id, ...props }) => (
           <LinkEntry key={id} {...props} />
         ))}

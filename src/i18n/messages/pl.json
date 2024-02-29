@@ -29,9 +29,22 @@
   "register": {
     "title": "Załóż nowe konto",
     "emailLabel": "E-mail",
-    "usernameLabel": "Nazwa użytkownika",
-    "passwordLabel": "Hasło",
-    "repeatPasswordLabel": "Powtórz hasło",
+    "email": {
+      "label": "E-mail",
+      "placeholder": "Wprowadź adres email"
+    },
+    "username": {
+      "label": "Nazwa użytkownika",
+      "placeholder": "Wprowadź nazwę użytkownika"
+    },
+    "password": {
+      "label": "Hasło",
+      "placeholder": "Wprowadź hasło"
+    },
+    "repeatPassword": {
+      "label": "Powtórz hasło",
+      "placeholder": "Wprowadź hasło ponownie"
+    },
     "submitButton": "Zarejestruj",
     "alreadyHaveAnAccount": "Masz już konto? Kliknij tutaj aby się zalogować",
     "successToast": {

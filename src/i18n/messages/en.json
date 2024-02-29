@@ -27,11 +27,24 @@
     }
   },
   "register": {
-    "title": "Create a new account",
+    "title": "Create a New Account",
     "emailLabel": "E-mail",
-    "usernameLabel": "Username",
-    "passwordLabel": "Password",
-    "repeatPasswordLabel": "Repeat password",
+    "email": {
+      "label": "E-mail",
+      "placeholder": "Enter email address"
+    },
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter username"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter password"
+    },
+    "repeatPassword": {
+      "label": "Repeat Password",
+      "placeholder": "Enter password again"
+    },
     "submitButton": "Register",
     "alreadyHaveAnAccount": "Already have an account? Click here to log in",
     "successToast": {

@@ -1,7 +1,5 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { routes } from "@/routes";
 import { Link } from "@/i18n/navigation";
@@ -13,6 +11,8 @@ import { useTransition } from "react";
 import { redirect } from "next/navigation";
 import { onSubmit } from "./actions";
 import { toast } from "@/components/ui/use-toast";
+import { Form } from "@/components/ui/form";
+import { TextField } from "@/components/form/textField/TextField";
 
 const schema = z
   .object({
@@ -34,11 +34,7 @@ export default function RegisterPage() {
 
   const [isPending, startTransition] = useTransition();
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors, isValid },
-  } = useForm<RegisterFormValues>({
+  const form = useForm<RegisterFormValues>({
     mode: "onChange",
     resolver: zodResolver(schema),
   });
@@ -62,45 +58,48 @@ export default function RegisterPage() {
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-8">
           {t("title")}
         </h1>
-        <form onSubmit={handleSubmit(onSubmitHandler)} className="min-w-full">
-          <div className="mb-4">
-            <Label htmlFor="email">{t("emailLabel")}</Label>
-            <Input id="email" {...register("email")} />
-            {!!errors.email && <p>{tErrors(errors.email.message)}</p>}
-          </div>
-          <div className="mb-4">
-            <Label htmlFor="username">{t("usernameLabel")}</Label>
-            <Input id="username" {...register("username")} />
-            {!!errors.username && <p>{tErrors(errors.username.message)}</p>}
-          </div>
-          <div className="mb-4">
-            <Label htmlFor="password">{t("passwordLabel")}</Label>
-            <Input id="password" type="password" {...register("password")} />
-            {!!errors.password && <p>{tErrors(errors.password.message)}</p>}
-          </div>
-          <div className="mb-6">
-            <Label htmlFor="repeatPassword">{t("repeatPasswordLabel")}</Label>
-            <Input
-              id="repeatPassword"
-              type="password"
-              {...register("repeatPassword")}
-            />
-            {!!errors.repeatPassword && (
-              <p>{tErrors(errors.repeatPassword.message)}</p>
-            )}
-          </div>
-          <Button
-            type="submit"
-            className="block mb-12"
-            variant="outline"
-            disabled={!isValid || isPending}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmitHandler)}
+            className="min-w-full"
           >
-            {t("submitButton")}
-          </Button>
-          <Link href={routes.login} className="underline">
-            {t("alreadyHaveAnAccount")}
-          </Link>
-        </form>
+            <div className="flex flex-col gap-4 my-4">
+              <TextField
+                name="email"
+                label={t("email.label")}
+                placeholder={t("email.placeholder")}
+              />
+              <TextField
+                name="username"
+                label={t("username.label")}
+                placeholder={t("username.placeholder")}
+              />
+              <TextField
+                name="password"
+                type="password"
+                label={t("password.label")}
+                placeholder={t("password.placeholder")}
+              />
+              <TextField
+                name="repeatPassword"
+                type="password"
+                label={t("repeatPassword.label")}
+                placeholder={t("repeatPassword.placeholder")}
+              />
+            </div>
+            <Button
+              type="submit"
+              className="block mb-12"
+              variant="outline"
+              disabled={!form.formState.isValid || isPending}
+            >
+              {t("submitButton")}
+            </Button>
+            <Link href={routes.login} className="underline">
+              {t("alreadyHaveAnAccount")}
+            </Link>
+          </form>
+        </Form>
       </div>
       <div className="hidden md:block bg-primary" />
     </div>

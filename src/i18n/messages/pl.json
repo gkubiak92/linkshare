@@ -94,7 +94,7 @@
       },
       "tags": {
         "label": "Tagi",
-        "placeholder": "Wprowadź tagi oddzielone przecinkiem"
+        "placeholder": "Wybierz tagi lub dodaj nowe"
       },
       "submitButton": "Dodaj",
       "cancelButton": "Anuluj"

@@ -20,10 +20,16 @@ import { schema } from "./schema";
 import { Form } from "@/components/ui/form";
 import { TextField } from "@/components/form/textField/TextField";
 import { TextAreaField } from "@/components/form/textAreaField/TextAreaField";
+import { MultiSelectField } from "@/components/form/multiSelectField/MultiSelectField";
+import { Tag } from "@/lib/services/tags/types";
 
 type FormValues = z.infer<typeof schema>;
 
-export const AddEntryModal = () => {
+type AddEntryModalProps = {
+  tags: Array<Omit<Tag, "createdAt">>;
+};
+
+export const AddEntryModal = ({ tags }: AddEntryModalProps) => {
   const t = useTranslations("addEntryModal");
   const tErrors = useTranslations("validators");
 
@@ -37,7 +43,16 @@ export const AddEntryModal = () => {
 
   const onSubmitHandler = async (values: FormValues) => {
     startTransition(async () => {
-      const { data } = await createEntry(values);
+      const chosenTags = values.tags.filter((tag) => !!tag.value);
+      const addedTags = values.tags.filter((tag) => tag.value === null);
+
+      const { data } = await createEntry({
+        ...values,
+        tags: {
+          chosen: chosenTags.map((tag) => String(tag.value)),
+          added: addedTags.map((tag) => tag.label),
+        },
+      });
 
       if (!!data) {
         toast({
@@ -84,10 +99,10 @@ export const AddEntryModal = () => {
                 label={t("form.thumbnail.label")}
                 placeholder={t("form.thumbnail.placeholder")}
               />
-              {/* TODO add tags with autocomplete */}
-              <TextField
-                control={form.control}
+              <MultiSelectField
                 name="tags"
+                control={form.control}
+                items={tags.map(({ id, name }) => ({ label: name, value: id }))}
                 label={t("form.tags.label")}
                 placeholder={t("form.tags.placeholder")}
               />

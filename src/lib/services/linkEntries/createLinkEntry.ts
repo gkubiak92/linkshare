@@ -8,7 +8,7 @@ import { linkEntries, tags, tagsToLinkEntries } from "@/db/schema";
 export type CreateLinkEntryParams = Pick<
   LinkEntry,
   "title" | "description" | "thumbnailUrl" | "url"
-> & { tags: string };
+> & { tags: { chosen: string[]; added: string[] } };
 
 type CreateLinkEntryResponse = {
   data: {
@@ -34,18 +34,20 @@ export async function createLinkEntry(
       })
       .returning({ id: linkEntries.id });
 
-    const tagEntries = entry.tags.toLowerCase().split(",");
+    const { chosen: chosenTagsIds, added: addedTags } = entry.tags;
 
     // TODO insert only unique tags
     const insertedTags = await db
       .insert(tags)
-      .values(tagEntries.map((tag) => ({ name: tag.trim() })))
+      .values(addedTags.map((tag) => ({ name: tag.trim() })))
       .returning({ id: tags.id });
 
+    const insertedTagsIds = insertedTags.map(({ id }) => id);
+
     await db.insert(tagsToLinkEntries).values(
-      insertedTags.map((insertedTag) => ({
+      [...chosenTagsIds, ...insertedTagsIds].map((tagId) => ({
         linkEntryId: result[0].id,
-        tagId: insertedTag.id,
+        tagId: Number(tagId),
       })),
     );
 

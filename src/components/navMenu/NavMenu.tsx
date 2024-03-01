@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { routes } from "@/routes";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { CircleUserRound } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,7 +67,11 @@ export async function NavMenu() {
             {user?.image && <AvatarImage src={user.image} />}
             <AvatarFallback>
               {/* TODO remove casting once user fetching is implemented*/}
-              {user ? (user as User).name[0].toUpperCase() : "?"}
+              {user ? (
+                (user as User).name[0].toUpperCase()
+              ) : (
+                <CircleUserRound />
+              )}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>

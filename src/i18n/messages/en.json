@@ -94,7 +94,7 @@
       },
       "tags": {
         "label": "Tags",
-        "placeholder": "Enter tags"
+        "placeholder": "Choose tags or add new ones"
       },
       "submitButton": "Add",
       "cancelButton": "Cancel"

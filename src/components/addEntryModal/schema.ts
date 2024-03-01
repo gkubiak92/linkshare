@@ -5,7 +5,10 @@ export const schema = z.object({
   description: z.string().max(256, { message: "VALIDATION.TOO_LONG" }),
   url: z.string().url({ message: "VALIDATION.NOT_AN_URL" }),
   thumbnailUrl: z.string().url({ message: "VALIDATION.NOT_AN_URL" }),
-  tags: z
-    .string()
-    .regex(/^[^,\s]+(?:,[^,\s]+)*$/, { message: "VALIDATION.INVALID_FORMAT" }),
+  tags: z.array(
+    z.object({
+      label: z.string(),
+      value: z.string().or(z.number()).nullable(),
+    }),
+  ),
 });

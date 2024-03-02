@@ -103,5 +103,8 @@
       "title": "New Entry Added",
       "description": "If you find more interesting materials, feel free to share them with us!"
     }
+  },
+  "multiselect": {
+    "addOption": "Add {value}"
   }
 }

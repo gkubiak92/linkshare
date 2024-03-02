@@ -10,7 +10,7 @@ export type CreateLinkEntryParams = Pick<
   "title" | "description" | "thumbnailUrl" | "url"
 > & { tags: { chosen: string[]; added: string[] } };
 
-type CreateLinkEntryResponse = {
+export type CreateLinkEntryResponse = {
   data: {
     id: string;
   };

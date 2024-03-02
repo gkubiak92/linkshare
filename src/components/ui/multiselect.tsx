@@ -13,8 +13,10 @@ import {
   Ref,
   RefAttributes,
   useCallback,
+  useEffect,
   useState,
 } from "react";
+import { useTranslations } from "next-intl";
 
 export type Item = {
   label: string;
@@ -37,17 +39,25 @@ const MultiSelectBase = <TItems extends Item[]>(
   { items, placeholder, onChange }: MultiSelectProps<TItems>,
   ref: ForwardedRef<HTMLInputElement>,
 ) => {
+  const t = useTranslations("multiselect");
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Item[]>([]);
   const [inputValue, setInputValue] = useState("");
-  //
-  // useEffect(() => {
-  //   onChange(selected);
-  // }, [selected]);
+
+  useEffect(() => {
+    onChange(selected);
+  }, [selected]);
 
   const handleUnselect = useCallback((item: Item) => {
     setSelected((prev) => prev.filter((s) => s.value !== item.value));
   }, []);
+
+  const selectables = items.filter(
+    (item) =>
+      !selected.some(
+        (selected) => selected.label.toLowerCase() === item.label.toString(),
+      ),
+  );
 
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Delete" || e.key === "Backspace") {
@@ -59,29 +69,7 @@ const MultiSelectBase = <TItems extends Item[]>(
         });
       }
     }
-
-    if (e.key === "Enter" && inputValue !== "" && selectables.length === 0) {
-      e.stopPropagation();
-      setSelected((prev) => {
-        const isAlreadyAdded = prev.some(
-          (item) => item.label.toLowerCase() === inputValue.toLowerCase(),
-        );
-        if (isAlreadyAdded) {
-          return prev;
-        }
-
-        return [...prev, { label: inputValue, value: null }];
-      });
-      setInputValue("");
-    }
   };
-
-  const selectables = items.filter(
-    (item) =>
-      !selected.some(
-        ({ label }) => item.label.toLowerCase() === label.toLowerCase(),
-      ),
-  );
 
   return (
     <Command
@@ -125,7 +113,28 @@ const MultiSelectBase = <TItems extends Item[]>(
       <div className="relative mt-2">
         {open && selectables.length > 0 ? (
           <div className="absolute w-full z-10 top-0 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
-            <CommandGroup className="h-full overflow-auto">
+            <CommandGroup className="max-h-60 overflow-auto">
+              {!!inputValue &&
+                !selectables.some(({ label }) => label === inputValue) &&
+                !selected.some(({ label }) => label === inputValue) && (
+                  <CommandItem
+                    key={inputValue}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onSelect={() => {
+                      setInputValue("");
+                      setSelected((prev) => [
+                        ...prev,
+                        { label: inputValue, value: null },
+                      ]);
+                    }}
+                    className={"cursor-pointer"}
+                  >
+                    {t("addOption", { value: inputValue })}
+                  </CommandItem>
+                )}
               {selectables.map((item) => (
                 <CommandItem
                   key={item.value}

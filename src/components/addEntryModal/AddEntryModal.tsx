@@ -31,7 +31,6 @@ type AddEntryModalProps = {
 
 export const AddEntryModal = ({ tags }: AddEntryModalProps) => {
   const t = useTranslations("addEntryModal");
-  const tErrors = useTranslations("validators");
 
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -46,7 +45,7 @@ export const AddEntryModal = ({ tags }: AddEntryModalProps) => {
       const chosenTags = values.tags.filter((tag) => !!tag.value);
       const addedTags = values.tags.filter((tag) => tag.value === null);
 
-      const { data } = await createEntry({
+      const { status } = await createEntry({
         ...values,
         tags: {
           chosen: chosenTags.map((tag) => String(tag.value)),
@@ -54,7 +53,7 @@ export const AddEntryModal = ({ tags }: AddEntryModalProps) => {
         },
       });
 
-      if (!!data) {
+      if (status === "success") {
         toast({
           title: t("successToast.title"),
           description: t("successToast.description"),
@@ -69,7 +68,10 @@ export const AddEntryModal = ({ tags }: AddEntryModalProps) => {
       <DialogTrigger asChild>
         <Button>{t("button")}</Button>
       </DialogTrigger>
-      <DialogContent onInteractOutside={(e) => e.preventDefault()}>
+      <DialogContent
+        className="overflow-y-scroll max-h-screen"
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmitHandler)}>
             <DialogHeader>{t("title")}</DialogHeader>

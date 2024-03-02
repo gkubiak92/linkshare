@@ -103,5 +103,8 @@
       "title": "Dodano nowy wpis",
       "description": "Jeśli znajdziesz kolejne ciekawe materiały, podziel się z nami!"
     }
+  },
+  "multiselect": {
+    "addOption": "Dodaj {value}"
   }
 }

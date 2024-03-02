@@ -5,10 +5,8 @@ export const schema = z.object({
   description: z.string().max(256, { message: "VALIDATION.TOO_LONG" }),
   url: z.string().url({ message: "VALIDATION.NOT_AN_URL" }),
   thumbnailUrl: z.string().url({ message: "VALIDATION.NOT_AN_URL" }),
-  tags: z.array(
-    z.object({
-      label: z.string(),
-      value: z.string().or(z.number()).nullable(),
+  tags: z.object({
+      chosen: z.array(z.string()),
+      added: z.array(z.string()),
     }),
-  ),
 });

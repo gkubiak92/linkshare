@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { count, eq, getTableColumns, ilike, like, or, sum } from "drizzle-orm";
+import { count, eq, getTableColumns, ilike, or, sum } from "drizzle-orm";
 import {
   linkEntries,
   tags,
@@ -9,10 +9,12 @@ import {
 } from "@/db/schema";
 import { LinkEntry } from "./types";
 import { unstable_cache } from "next/cache";
+import { PgSelect } from "drizzle-orm/pg-core";
+import { withPagination } from "@/lib/services/utils";
 
 type GetLinkEntriesParams = {
-  limit: number;
-  offset: number;
+  page: number;
+  pageSize: number;
   tag?: string;
   search?: string;
 };
@@ -20,15 +22,16 @@ type GetLinkEntriesParams = {
 type GetLinkEntriesResponse = {
   data: LinkEntry[];
   pagination: {
-    limit: number;
-    offset: number;
+    page: number;
+    pageSize: number;
     total: number;
   };
 };
 
 const baseLinkEntriesQuery = db
   .selectDistinct(getTableColumns(linkEntries))
-  .from(linkEntries);
+  .from(linkEntries)
+  .$dynamic();
 
 const getSubQueryWithTag = (tag: string) =>
   db
@@ -39,12 +42,21 @@ const getSubQueryWithTag = (tag: string) =>
       eq(tagsToLinkEntries.linkEntryId, linkEntries.id),
     )
     .innerJoin(tags, eq(tagsToLinkEntries.tagId, tags.id))
-    .where(({ tagName }) => eq(tagName, tag));
+    .where(({ tagName }) => eq(tagName, tag))
+    .$dynamic();
+
+const withSearch = <QueryBuilder extends PgSelect>(
+  qb: QueryBuilder,
+  search: string,
+) =>
+  qb.where(({ title, description }) =>
+    or(ilike(title, `%${search}%`), ilike(description, `%${search}%`)),
+  );
 
 async function getLinkEntriesQuery({
   search,
-  limit = 20,
-  offset = 0,
+  page,
+  pageSize,
   tag,
 }: GetLinkEntriesParams): Promise<GetLinkEntriesResponse> {
   const [{ value: total }] = await db
@@ -54,18 +66,14 @@ async function getLinkEntriesQuery({
   let query = baseLinkEntriesQuery;
 
   if (tag) {
-    // TODO find a way how to fix those types for built queries
-    // @ts-ignore-next-line
     query = getSubQueryWithTag(tag);
   }
 
   if (search) {
-    // TODO find a way how to fix those types for built queries
-    // @ts-ignore-next-line
-    query = query.where(({ title, description }) =>
-      or(ilike(title, `%${search}%`), like(description, `%${search}%`)),
-    );
+    query = withSearch(query, search);
   }
+
+  query = withPagination(query, page, pageSize);
 
   const dataResult = await db
     .select({
@@ -74,7 +82,7 @@ async function getLinkEntriesQuery({
       tags: { ...getTableColumns(tags) },
       score: sum(votesToLinkEntries.vote),
     })
-    .from(query.limit(limit).offset(offset).as("linkEntries"))
+    .from(query.as("linkEntries"))
     .leftJoin(users, eq(linkEntries.userId, users.id))
     .innerJoin(
       tagsToLinkEntries,
@@ -98,9 +106,13 @@ async function getLinkEntriesQuery({
       tags.name,
     );
 
-  const data = Object.values(
-    dataResult.reduce<Record<number, any>>((acc, next) => {
+  const groupedEntriesById = dataResult.reduce<Record<number, LinkEntry>>(
+    (acc, next) => {
       const previousTags = !!acc[next.id] ? acc[next.id].tags : [];
+
+      if (!next.user) {
+        return { ...acc };
+      }
 
       return {
         ...acc,
@@ -111,14 +123,17 @@ async function getLinkEntriesQuery({
           score: Number(next.score) || 0,
         },
       };
-    }, {}),
+    },
+    {},
   );
+
+  const data = Object.values(groupedEntriesById);
 
   return {
     data,
     pagination: {
-      limit,
-      offset,
+      page,
+      pageSize,
       total,
     },
   };

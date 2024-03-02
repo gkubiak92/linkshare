@@ -31,17 +31,17 @@ export default async function Home({ searchParams }: HomeProps) {
 
   const search = searchParams.search;
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
-  const limit = !!searchParams.perPage
+  const pageSize = !!searchParams.perPage
     ? parseInt(searchParams.perPage)
     : DEFAULT_PER_PAGE;
 
   const { data, pagination } = await getLinkEntries({
     search,
-    limit,
-    offset: (page - 1) * limit,
+    page,
+    pageSize,
   });
 
-  const pagesCount = Math.ceil(pagination.total / limit);
+  const pagesCount = Math.ceil(pagination.total / pageSize);
 
   // TODO consider moving that down to add entry modal
   const { data: tags } = await getTags();

@@ -21,7 +21,7 @@ export default async function Tags({ params, searchParams }: TagsProps) {
 
   const search = searchParams.search;
   const page = !!searchParams.page ? parseInt(searchParams.page) : 1;
-  const limit = !!searchParams.perPage
+  const pageSize = !!searchParams.perPage
     ? parseInt(searchParams.perPage)
     : DEFAULT_PER_PAGE;
   const tag = decodeURIComponent(params.tag);
@@ -29,11 +29,11 @@ export default async function Tags({ params, searchParams }: TagsProps) {
   const { data, pagination } = await getLinkEntries({
     search,
     tag,
-    limit,
-    offset: (page - 1) * limit,
+    page,
+    pageSize,
   });
 
-  const pagesCount = Math.ceil(pagination.total / limit);
+  const pagesCount = Math.ceil(pagination.total / pageSize);
 
   return (
     <>

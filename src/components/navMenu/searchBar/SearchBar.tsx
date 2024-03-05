@@ -4,11 +4,11 @@ import { Input, InputProps } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
 import { routes } from "@/routes";
+import { z } from "@/lib/validators/validators";
 
 type SearchBarProps = Omit<InputProps, "className"> & { className?: string };
 

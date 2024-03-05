@@ -146,7 +146,7 @@ const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
-  const t = useTranslations("validators");
+  const t = useTranslations();
   const { error, formMessageId } = useFormField();
   const body = error ? t(String(error?.message)) : children;
 

@@ -1,10 +1,10 @@
-import z from "zod";
+import { z } from "@/lib/validators/validators";
 
 export const addEntryCommonSchema = {
-  title: z.string().max(128, { message: "VALIDATION.TOO_LONG" }),
-  description: z.string().max(256, { message: "VALIDATION.TOO_LONG" }),
-  url: z.string().url({ message: "VALIDATION.NOT_AN_URL" }),
-  thumbnailUrl: z.string().url({ message: "VALIDATION.NOT_AN_URL" }),
+  title: z.string().max(128, { message: "tooLong" }),
+  description: z.string().max(256, { message: "tooLong" }),
+  url: z.string().url({ message: "invalidFormat" }),
+  thumbnailUrl: z.string().url({ message: "invalidFormat" }),
 };
 
 export const schema = z.object({

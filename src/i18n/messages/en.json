@@ -67,10 +67,26 @@
     "title": "Entries with tag: #{tag}"
   },
   "validators": {
+    "required": "This field is required",
     "notEmail": "Please provide a valid e-mail address",
     "passwordsDontMatch": "Provided passwords don't match",
     "passwordTooShort": "Provided password is too short",
-    "invalidFormat": "Invalid format"
+    "invalidFormat": "Invalid format",
+    "invalidType": "Invalid type provided.",
+    "invalidString": "Invalid string provided.",
+    "invalidNumber": "Invalid number provided.",
+    "customError": "Custom error occurred.",
+    "invalidUnion": "Invalid value for union type.",
+    "invalidEnumValue": "Invalid enum value provided.",
+    "unrecognizedKeys": "Unrecognized keys provided.",
+    "invalidArguments": "Invalid arguments provided.",
+    "invalidReturnType": "Invalid return type.",
+    "invalidDate": "Invalid date provided.",
+    "tooSmall": "Value is too small.",
+    "tooBig": "Value is too big.",
+    "invalidIntersectionTypes": "Invalid intersection types provided.",
+    "notMultipleOf": "Value is not a multiple of specified value.",
+    "notFinite": "Value is not a finite number."
   },
   "addEntryModal": {
     "button": "Add entry",

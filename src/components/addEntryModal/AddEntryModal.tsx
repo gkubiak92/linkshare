@@ -14,7 +14,6 @@ import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { createEntry } from "./action";
 import { toast } from "@/components/ui/use-toast";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "./schema";
 import { Form } from "@/components/ui/form";
@@ -22,6 +21,7 @@ import { TextField } from "@/components/form/textField/TextField";
 import { TextAreaField } from "@/components/form/textAreaField/TextAreaField";
 import { MultiSelectField } from "@/components/form/multiSelectField/MultiSelectField";
 import { Tag } from "@/lib/services/tags/types";
+import { z } from "@/lib/validators/validators";
 
 type FormValues = z.infer<typeof schema>;
 

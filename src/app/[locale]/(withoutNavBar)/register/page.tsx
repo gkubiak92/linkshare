@@ -5,7 +5,6 @@ import { routes } from "@/routes";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition } from "react";
 import { redirect } from "next/navigation";
@@ -13,16 +12,17 @@ import { onSubmit } from "./actions";
 import { toast } from "@/components/ui/use-toast";
 import { Form } from "@/components/ui/form";
 import { TextField } from "@/components/form/textField/TextField";
+import { z } from "@/lib/validators/validators";
 
 const schema = z
   .object({
-    email: z.string().email({ message: "notEmail" }),
-    username: z.string(),
-    password: z.string().min(8, { message: "passwordTooShort" }),
+    email: z.string().email({ message: "validators.notEmail" }),
+    username: z.string().min(6),
+    password: z.string().min(8, { message: "validators.passwordTooShort" }),
     repeatPassword: z.string(),
   })
   .refine(({ password, repeatPassword }) => password === repeatPassword, {
-    message: "passwordsDontMatch",
+    message: "validators.passwordsDontMatch",
     path: ["repeatPassword"],
   });
 
@@ -30,7 +30,6 @@ export type RegisterFormValues = z.infer<typeof schema>;
 
 export default function RegisterPage() {
   const t = useTranslations("register");
-  const tErrors = useTranslations("validators");
 
   const [isPending, startTransition] = useTransition();
 

@@ -5,7 +5,7 @@ import {
   CreateLinkEntryParams,
   CreateLinkEntryResponse as CreateLinkEntryQueryResponse,
 } from "@/lib/services/linkEntries/createLinkEntry";
-import z, { ZodError } from "zod";
+import { z } from "@/lib/validators/validators";
 import { revalidateTag } from "next/cache";
 import { addEntryCommonSchema } from "./schema";
 
@@ -18,7 +18,7 @@ type CreateEntryResponse =
     }
   | {
       status: "failed";
-      error: ZodError;
+      error: z.ZodError;
     };
 
 const schema = z.object({

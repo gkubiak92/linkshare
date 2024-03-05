@@ -67,10 +67,26 @@
     "title": "Wpisy z tagiem: #{tag}"
   },
   "validators": {
+    "required": "To pole jest wymagane",
     "notEmail": "Proszę wprowadź poprawny adres e-mail",
     "passwordsDontMatch": "Podane hasła różnią się od siebie",
     "passwordTooShort": "Wprowadzone hasło jest zbyt krótkie",
-    "invalidFormat": "Nieprawidłowy format"
+    "invalidFormat": "Nieprawidłowy format",
+    "invalidType": "Nieprawidłowy typ.",
+    "invalidString": "Nieprawidłowy ciąg znaków.",
+    "invalidNumber": "Nieprawidłowa liczba.",
+    "customError": "Wystąpił niestandardowy błąd.",
+    "invalidUnion": "Nieprawidłowa wartość dla typu unii.",
+    "invalidEnumValue": "Nieprawidłowa wartość enumeracji.",
+    "unrecognizedKeys": "Nieznane klucze.",
+    "invalidArguments": "Nieprawidłowe argumenty.",
+    "invalidReturnType": "Nieprawidłowy typ zwracany.",
+    "invalidDate": "Nieprawidłowa data.",
+    "tooSmall": "Wartość jest zbyt mała.",
+    "tooBig": "Wartość jest zbyt duża.",
+    "invalidIntersectionTypes": "Nieprawidłowe typy przecięcia.",
+    "notMultipleOf": "Wartość nie jest wielokrotnością określonej wartości.",
+    "notFinite": "Wartość nie jest liczbą skończoną."
   },
   "addEntryModal": {
     "button": "Dodaj wpis",

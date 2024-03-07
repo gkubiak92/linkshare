@@ -55,8 +55,8 @@ export default async function Home({ searchParams }: HomeProps) {
             <h2 className="block text-4xl mb-2">{t("allEntries")}</h2>
             {!!user && <AddEntryModal tags={tags} />}
           </div>
-          {data.map(({ id, ...props }) => (
-            <LinkEntry key={id} {...props} />
+          {data.map((linkEntry) => (
+            <LinkEntry key={linkEntry.id} {...linkEntry} canVote={!!user} />
           ))}
         </div>
       </section>

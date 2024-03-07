@@ -85,7 +85,7 @@ export const votesToLinkEntries = pgTable("votesToLinkEntries", {
   linkEntryId: integer("linkEntryId")
     .notNull()
     .references(() => linkEntries.id),
-  vote: integer("vote"),
+  vote: integer("vote").notNull(),
 });
 
 export const votesToLinkEntriesRelations = relations(

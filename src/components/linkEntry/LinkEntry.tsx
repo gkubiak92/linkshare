@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { type LinkEntry as LinkEntryType } from "@/lib/services/linkEntries/types";
 import { routes } from "@/routes";
-import { Button } from "@/components/ui/button";
+import { Votes } from "@/components/linkEntry/votes/Votes";
 
 type LinkEntryThumbnailProps = {
   imageUrl: string;
@@ -29,9 +29,10 @@ const LinkEntryThumbnail = ({
   />
 );
 
-export type LinkEntryProps = Omit<LinkEntryType, "id"> & { canVote?: boolean };
+export type LinkEntryProps = LinkEntryType & { canVote?: boolean };
 
 export const LinkEntry = ({
+  id,
   title,
   description,
   url,
@@ -40,7 +41,7 @@ export const LinkEntry = ({
   tags,
   score,
   canVote,
-  createdAt,
+  vote,
 }: LinkEntryProps) => (
   <Card className="shadow-accent">
     <CardHeader className="pb-0 md:pb-2">
@@ -84,12 +85,7 @@ export const LinkEntry = ({
         <div className="flex items-center gap-2 text-2xl text-muted-foreground">
           <span className="block">🎯</span>
           <span className="block text-lg text-zinc-500">{score}</span>
-          {canVote && (
-            <>
-              <Button variant="ghost">👍</Button>
-              <Button variant="ghost">👎</Button>
-            </>
-          )}
+          {canVote && <Votes linkEntryId={id} vote={vote} />}
         </div>
         <div className="flex items-center gap-2">
           <span className="block text-zinc-500 text-sm">{user.name}</span>

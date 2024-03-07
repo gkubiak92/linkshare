@@ -11,6 +11,8 @@ import { LinkEntry } from "./types";
 import { unstable_cache } from "next/cache";
 import { PgSelect } from "drizzle-orm/pg-core";
 import { withPagination } from "@/lib/services/utils";
+import { getUserData } from "@/lib/services/users/getUserData";
+import { Vote } from "@/lib/services/linkEntries/voteOnLinkEntry";
 
 type GetLinkEntriesParams = {
   page: number;
@@ -59,6 +61,8 @@ async function getLinkEntriesQuery({
   pageSize,
   tag,
 }: GetLinkEntriesParams): Promise<GetLinkEntriesResponse> {
+  const { user } = await getUserData();
+
   const [{ value: total }] = await db
     .select({ value: count() })
     .from(linkEntries);
@@ -81,6 +85,9 @@ async function getLinkEntriesQuery({
       user: { ...getTableColumns(users) },
       tags: { ...getTableColumns(tags) },
       score: sum(votesToLinkEntries.vote),
+      ...(!!user && {
+        vote: votesToLinkEntries.vote,
+      }),
     })
     .from(query.as("linkEntries"))
     .leftJoin(users, eq(linkEntries.userId, users.id))
@@ -104,6 +111,7 @@ async function getLinkEntriesQuery({
       users.id,
       tags.id,
       tags.name,
+      ...(!!user ? [votesToLinkEntries.vote] : []),
     );
 
   const groupedEntriesById = dataResult.reduce<Record<number, LinkEntry>>(
@@ -118,6 +126,7 @@ async function getLinkEntriesQuery({
         ...acc,
         [next.id]: {
           ...next,
+          vote: next.vote ? (next.vote as Vote) : undefined,
           user: next.user,
           tags: [...previousTags, next.tags],
           score: Number(next.score) || 0,

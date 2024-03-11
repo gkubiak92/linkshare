@@ -41,7 +41,6 @@ export const LinkEntry = ({
   thumbnailUrl,
   user,
   tags,
-  score,
   canVote,
   userVote,
 }: LinkEntryProps) => (
@@ -85,8 +84,6 @@ export const LinkEntry = ({
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-2xl text-muted-foreground">
-          <span className="block">🎯</span>
-          <span className="block text-lg text-zinc-500">{score}</span>
           {canVote && <Votes linkEntryId={id} vote={userVote ?? 0} />}
         </div>
         <div className="flex items-center gap-2">

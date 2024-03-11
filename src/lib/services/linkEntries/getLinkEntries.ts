@@ -1,14 +1,5 @@
 import { db } from "@/db";
-import {
-  and,
-  count,
-  eq,
-  getTableColumns,
-  ilike,
-  or,
-  sql,
-  sum,
-} from "drizzle-orm";
+import { and, count, eq, getTableColumns, ilike, or, sql } from "drizzle-orm";
 import {
   linkEntries,
   tags,
@@ -97,7 +88,6 @@ async function getLinkEntriesQuery({
       ...linkEntriesColumns,
       user: getTableColumns(users),
       tags: sql`string_agg(${tags.name}, ',')`,
-      score: sum(vtle.vote),
       userVote: sql`coalesce(vtle.vote, 0)`,
     })
     .from(query.as("linkEntries"))
@@ -109,7 +99,10 @@ async function getLinkEntriesQuery({
     .leftJoin(tags, eq(tags.id, tagsToLinkEntries.tagId))
     .leftJoin(
       vtle,
-      and(eq(vtle.userId, user?.id!), eq(vtle.linkEntryId, linkEntries.id)),
+      and(
+        !!user ? eq(vtle.userId, user?.id) : undefined,
+        eq(vtle.linkEntryId, linkEntries.id),
+      ),
     )
     .groupBy(...Object.values(linkEntriesColumns), users.id, vtle.vote);
 
@@ -118,7 +111,6 @@ async function getLinkEntriesQuery({
       ...linkEntry,
       user: linkEntry.user!,
       userVote: linkEntry.userVote as Vote,
-      score: Number(linkEntry.score),
       tags: (linkEntry.tags as string).split(","),
     })),
     pagination: {

@@ -10,7 +10,6 @@ export type LinkEntry = {
   thumbnailUrl: string;
   user: User;
   tags: Tag[];
-  score: number;
   userVote: Vote | null;
   createdAt: Date;
 };

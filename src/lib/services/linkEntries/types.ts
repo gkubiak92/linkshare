@@ -11,6 +11,6 @@ export type LinkEntry = {
   user: User;
   tags: Tag[];
   score: number;
-  vote?: Vote;
+  userVote: Vote | null;
   createdAt: Date;
 };

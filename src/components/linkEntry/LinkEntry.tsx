@@ -29,7 +29,9 @@ const LinkEntryThumbnail = ({
   />
 );
 
-export type LinkEntryProps = LinkEntryType & { canVote?: boolean };
+export type LinkEntryProps = Omit<LinkEntryType, "tags"> & {
+  tags: string[];
+} & { canVote?: boolean };
 
 export const LinkEntry = ({
   id,
@@ -41,7 +43,7 @@ export const LinkEntry = ({
   tags,
   score,
   canVote,
-  vote,
+  userVote,
 }: LinkEntryProps) => (
   <Card className="shadow-accent">
     <CardHeader className="pb-0 md:pb-2">
@@ -65,12 +67,12 @@ export const LinkEntry = ({
             {url}
           </Link>
           <div className="flex gap-2 flex-wrap mb-2">
-            {tags.map(({ name }, index) => (
+            {tags.map((tag, index) => (
               <Link
                 key={index}
-                href={`${routes.links.tags}/${encodeURIComponent(name)}`}
+                href={`${routes.links.tags}/${encodeURIComponent(tag)}`}
               >
-                <Chip className="block text-xs">#{name}</Chip>
+                <Chip className="block text-xs">#{tag}</Chip>
               </Link>
             ))}
           </div>
@@ -85,7 +87,7 @@ export const LinkEntry = ({
         <div className="flex items-center gap-2 text-2xl text-muted-foreground">
           <span className="block">🎯</span>
           <span className="block text-lg text-zinc-500">{score}</span>
-          {canVote && <Votes linkEntryId={id} vote={vote} />}
+          {canVote && <Votes linkEntryId={id} vote={userVote ?? 0} />}
         </div>
         <div className="flex items-center gap-2">
           <span className="block text-zinc-500 text-sm">{user.name}</span>

@@ -43,6 +43,8 @@ export const LinkEntry = ({
   tags,
   canVote,
   userVote,
+  likes,
+  dislikes,
 }: LinkEntryProps) => (
   <Card className="shadow-accent">
     <CardHeader className="pb-0 md:pb-2">
@@ -84,7 +86,13 @@ export const LinkEntry = ({
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-2xl text-muted-foreground">
-          {canVote && <Votes linkEntryId={id} vote={userVote ?? 0} />}
+          <Votes
+            canVote={!!canVote}
+            linkEntryId={id}
+            vote={userVote ?? 0}
+            likes={likes}
+            dislikes={dislikes}
+          />
         </div>
         <div className="flex items-center gap-2">
           <span className="block text-zinc-500 text-sm">{user.name}</span>

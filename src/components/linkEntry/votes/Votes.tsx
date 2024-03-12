@@ -8,18 +8,54 @@ import { useState } from "react";
 import { saveVote } from "./action";
 
 type VotesProps = {
+  canVote: boolean;
   linkEntryId: number;
+  likes: number;
+  dislikes: number;
   vote?: Vote;
 };
 
-export const Votes = ({ linkEntryId, vote: defaultVote = 0 }: VotesProps) => {
+export const Votes = ({
+  canVote,
+  linkEntryId,
+  likes: defaultLikes,
+  dislikes: defaultDislikes,
+  vote: defaultVote = 0,
+}: VotesProps) => {
   const [vote, setVote] = useState<Vote>(defaultVote);
+  const [likes, setLikes] = useState(defaultLikes);
+  const [dislikes, setDislikes] = useState(defaultDislikes);
   const [isPending, setIsPending] = useState(false);
 
-  const voteAction = async (vote: Vote) => {
+  const voteAction = async (action: "like" | "dislike", v: Vote) => {
     setIsPending(true);
-    setVote(vote);
-    await saveVote({ linkEntryId, vote });
+    const previousVote = vote;
+    setVote(v);
+    switch (action) {
+      case "like":
+        if (v === 1) {
+          setLikes((prev) => prev + 1);
+          if (previousVote === -1) {
+            setDislikes((prev) => prev - 1);
+          }
+        }
+        if (v === 0) {
+          setLikes((prev) => prev - 1);
+        }
+        break;
+      case "dislike":
+        if (v === -1) {
+          setDislikes((prev) => prev + 1);
+          if (previousVote === 1) {
+            setLikes((prev) => prev - 1);
+          }
+        }
+        if (v === 0) {
+          setDislikes((prev) => prev - 1);
+        }
+        break;
+    }
+    await saveVote({ linkEntryId, vote: v });
     setIsPending(false);
   };
 
@@ -28,25 +64,28 @@ export const Votes = ({ linkEntryId, vote: defaultVote = 0 }: VotesProps) => {
 
   const commonButtonProps: Partial<ButtonProps> = {
     variant: "ghost",
-    disabled: isPending,
+    disabled: !canVote || isPending,
+    className: "flex gap-2 items-center",
   };
 
   return (
     <>
       <Button
         {...commonButtonProps}
-        onClick={() => voteAction(isLiked ? 0 : 1)}
+        onClick={() => voteAction("like", isLiked ? 0 : 1)}
       >
         <ThumbsUpIcon size={16} className={cn({ "fill-primary": isLiked })} />
+        <span>{likes}</span>
       </Button>
       <Button
         {...commonButtonProps}
-        onClick={() => voteAction(isDisliked ? 0 : -1)}
+        onClick={() => voteAction("dislike", isDisliked ? 0 : -1)}
       >
         <ThumbsDownIcon
           size={16}
           className={cn({ "fill-primary": isDisliked })}
         />
+        <span>{dislikes}</span>
       </Button>
     </>
   );

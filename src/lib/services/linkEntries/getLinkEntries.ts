@@ -82,13 +82,16 @@ async function getLinkEntriesQuery({
   query = withPagination(query, page, pageSize);
 
   const vtle = alias(votesToLinkEntries, "vtle");
+  const likes = alias(votesToLinkEntries, "likes");
 
   const data = await db
     .select({
       ...linkEntriesColumns,
       user: getTableColumns(users),
-      tags: sql`string_agg(${tags.name}, ',')`,
+      tags: sql`string_agg(distinct ${tags.name}, ',')`,
       userVote: sql`coalesce(vtle.vote, 0)`,
+      likes: sql`count(*) filter(where ${likes.vote} = 1) as likes`,
+      dislikes: sql`count(*) filter(where ${likes.vote} = -1) as dislikes`,
     })
     .from(query.as("linkEntries"))
     .leftJoin(users, eq(linkEntries.userId, users.id))
@@ -99,16 +102,16 @@ async function getLinkEntriesQuery({
     .leftJoin(tags, eq(tags.id, tagsToLinkEntries.tagId))
     .leftJoin(
       vtle,
-      and(
-        !!user ? eq(vtle.userId, user?.id) : undefined,
-        eq(vtle.linkEntryId, linkEntries.id),
-      ),
+      and(eq(vtle.userId, user?.id!), eq(vtle.linkEntryId, linkEntries.id)),
     )
+    .leftJoin(likes, eq(likes.linkEntryId, linkEntries.id))
     .groupBy(...Object.values(linkEntriesColumns), users.id, vtle.vote);
 
   return {
     data: data.map((linkEntry) => ({
       ...linkEntry,
+      likes: Number(linkEntry.likes),
+      dislikes: Number(linkEntry.dislikes),
       user: linkEntry.user!,
       userVote: linkEntry.userVote as Vote,
       tags: (linkEntry.tags as string).split(","),

@@ -3,6 +3,12 @@ import { votesToLinkEntries } from "@/db/schema";
 import { getUserData } from "@/lib/services/users/getUserData";
 import { and, eq } from "drizzle-orm";
 
+/**
+ * Vote union type
+ * -1 = dislike,
+ * 0 = revert vote,
+ * 1 = like
+ */
 export type Vote = -1 | 0 | 1;
 
 export type VoteOnLinkEntryParams = {

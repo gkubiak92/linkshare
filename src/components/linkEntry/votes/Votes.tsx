@@ -1,11 +1,9 @@
 "use client";
 
 import { Vote } from "@/lib/services/linkEntries/voteOnLinkEntry";
-import { Button, ButtonProps } from "@/components/ui/button";
-import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { saveVote } from "./action";
+import { VoteButton } from "./button/VoteButton";
 
 type VotesProps = {
   canVote: boolean;
@@ -61,32 +59,24 @@ export const Votes = ({
 
   const isLiked = vote === 1;
   const isDisliked = vote === -1;
-
-  const commonButtonProps: Partial<ButtonProps> = {
-    variant: "ghost",
-    disabled: !canVote || isPending,
-    className: "flex gap-2 items-center",
-  };
+  const disabled = !canVote || isPending;
 
   return (
     <>
-      <Button
-        {...commonButtonProps}
+      <VoteButton
+        icon="thumbUp"
         onClick={() => voteAction("like", isLiked ? 0 : 1)}
-      >
-        <ThumbsUpIcon size={16} className={cn({ "fill-primary": isLiked })} />
-        <span>{likes}</span>
-      </Button>
-      <Button
-        {...commonButtonProps}
+        count={likes}
+        isActive={isLiked}
+        disabled={disabled}
+      />
+      <VoteButton
+        icon="thumbDown"
         onClick={() => voteAction("dislike", isDisliked ? 0 : -1)}
-      >
-        <ThumbsDownIcon
-          size={16}
-          className={cn({ "fill-primary": isDisliked })}
-        />
-        <span>{dislikes}</span>
-      </Button>
+        count={dislikes}
+        isActive={isDisliked}
+        disabled={disabled}
+      />
     </>
   );
 };
